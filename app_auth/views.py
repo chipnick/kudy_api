@@ -28,13 +28,7 @@ class SignUpView(generics.GenericAPIView):
             user.set_password(request.data['password'])
             user.save()
             token = Token.objects.create(user=user)
-            return Response({
-                'status': 'success',
-                'data': {
-                    'user': UserSerializer(instance=user).data,
-                    'token': token
-                }
-            }, status=status.HTTP_200_OK)
+            return Response(token.key, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -44,18 +38,11 @@ class LoginView(generics.GenericAPIView):
     queryset = User.objects.all()
 
     def post(self, request, *args, **kwargs):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = User.objects.filter(email=request.data['email']).first()
-            if user:
-                if not check_password(request.data['password'], user.password):
-                    return Response(status=status.HTTP_400_BAD_REQUEST)
-                token, created = Token.objects.get_or_create(user=user)
-                return Response({
-                    "user": UserSerializer(instance=user, many=False).data,
-                    "token": token.key,
-                }, status=status.HTTP_200_OK)
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+        user = User.objects.filter(email=request.data['email']).first()
+        if user:
+            if not check_password(request.data['password'], user.password):
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            token, created = Token.objects.get_or_create(user=user)
+            return Response(token.key, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_404_NOT_FOUND)
