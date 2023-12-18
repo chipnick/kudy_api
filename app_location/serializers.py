@@ -7,4 +7,4 @@ class SetUserLocation(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['x', 'y']
+        fields = ['longitude', 'latitude']

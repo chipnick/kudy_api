@@ -8,13 +8,14 @@ from app_users.models import User
 class SetMyLocation(generics.GenericAPIView):
     serializer_class = SetUserLocation
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
         serializer = SetUserLocation(data=request.data)
+        print(request.headers)
         if serializer.is_valid():
-            self.request.user.x = request.data['x']
-            self.request.user.y = request.data['y']
+            self.request.user.longitude = request.data['longitude']
+            self.request.user.latitude = request.data['latitude']
             self.request.user.save()
             return Response(status=status.HTTP_200_OK)
         else:

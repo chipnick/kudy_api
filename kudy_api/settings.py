@@ -44,9 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework.authtoken',
-    'drf_yasg',
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'drf_yasg',
     'app_users',
     'app_auth',
     'app_location'
@@ -80,7 +81,25 @@ TEMPLATES = [
     },
 ]
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
+
 WSGI_APPLICATION = 'kudy_api.wsgi.application'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 
 
 # Database
