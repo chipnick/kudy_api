@@ -8,7 +8,7 @@ from app_users.models import User
 class SetMyLocation(generics.GenericAPIView):
     serializer_class = SetUserLocation
     queryset = User.objects.all()
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
         serializer = SetUserLocation(data=request.data)

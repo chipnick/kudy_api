@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'app_users',
     'app_auth',
-    'app_location'
+    'app_location',
+    "app_friends",
 ]
 
 MIDDLEWARE = [

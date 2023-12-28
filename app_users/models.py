@@ -39,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField("staff status", default=False)
     longitude = models.FloatField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
+    friends = models.ManyToManyField("self")
 
     objects = MyUserManager()
 
