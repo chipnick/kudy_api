@@ -13,10 +13,10 @@ class FriendClass(generics.GenericAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, )
 
-    def get(self, request, args, kwargs):
+    def get(self, request, *args, **kwargs):
         return Response(FriendSerializer(instance=self.request.user.friends, many=True).data, status=status.HTTP_200_OK)
 
-    def delete(self, request, args, kwargs):
+    def delete(self, request, *args, **kwargs):
         token = self.request.query_params.get("token")
         if token:
             friend = User.friends.filter(id=int(base64UrlDecode(token.encode('utf-8')).decode('utf-8')))

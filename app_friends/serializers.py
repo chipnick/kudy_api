@@ -7,4 +7,4 @@ class FriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['full_name', 'email', 'longitude', 'latitude']
+        fields = ["id", 'full_name', 'email', 'longitude', 'latitude']
