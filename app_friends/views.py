@@ -6,12 +6,14 @@ from rest_framework.response import Response
 from app_friends.serializers import FriendSerializer
 from app_location.serializers import SetUserLocation
 from app_users.models import User
+from app_users.serializers import UserSerializer
 from helpers.helpers import base64UrlDecode, base64UrlEncode
 
 
 class FriendClass(generics.GenericAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, )
+    serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
         return Response(FriendSerializer(instance=self.request.user.friends, many=True).data, status=status.HTTP_200_OK)
@@ -33,6 +35,7 @@ class FriendClass(generics.GenericAPIView):
 class GetFriendUrl(generics.GenericAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, )
+    serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
         token = base64UrlEncode(f"{request.user.id}".encode('utf-8')).decode('utf-8')
@@ -42,6 +45,7 @@ class GetFriendUrl(generics.GenericAPIView):
 class AddFriend(generics.GenericAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, )
+    serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
         token = self.request.query_params.get("token")
