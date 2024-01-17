@@ -11,13 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env()
-environ.Env.read_env()
 AUTH_USER_MODEL = "app_users.User"
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +27,8 @@ SECRET_KEY = 'django-insecure-8r_=tt01nwgk=m6#6l-!40hieekv_89*^dgdqd#t4*bo(r=ik#
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.0.107'
+    '192.168.0.107',
+    'kudy.r2l.me'
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -108,14 +106,14 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': env("SQL_ENGINE"),
-        'NAME': env("SQL_DATABASE"),
-        'USER': env("SQL_USER"),
-        'PASSWORD': env("SQL_PASSWORD"),
-        'HOST': env("SQL_HOST"),  # Or an IP Address that your DB is hosted on
-        'PORT': env("SQL_PORT"),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kudy',
+        'USER': 'tgdir',
+        'PASSWORD': 'j8$1#juhSd_2iad86^#&',
+        'HOST': '193.42.111.183',
+        'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8mb4'  # This is the relevant line
+            'charset': 'utf8mb4'  # This is the important line
         }
     }
 }
@@ -156,7 +154,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    "/var/www/static/",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
