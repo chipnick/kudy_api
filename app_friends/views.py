@@ -38,7 +38,7 @@ class GetFriendUrl(generics.GenericAPIView):
     serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
-        token = base64UrlEncode(f"{request.user.id}".encode('utf-8')).decode('utf-8')
+        token = base64UrlEncode(f"{request.user.email}".encode('utf-8')).decode('utf-8')
         return Response(f"{token}")
 
 
@@ -50,7 +50,7 @@ class AddFriend(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         token = self.request.query_params.get("token")
         if token:
-            friend = User.objects.filter(id=base64UrlDecode(token.encode('utf-8')).decode('utf-8')).first()
+            friend = User.objects.filter(email=base64UrlDecode(token.encode('utf-8')).decode('utf-8')).first()
             self.request.user.friends.add(friend)
             self.request.user.save()
             friend.friends.add(self.request.user)
