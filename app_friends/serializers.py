@@ -7,4 +7,8 @@ class FriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", 'full_name', 'email', 'longitude', 'latitude', 'profile_pic']
+        fields = ["id", 'full_name', 'email', 'longitude', 'latitude', 'profile_pic', 'is_online', 'last_online', 'last_position']
+
+
+class SetOnlineStatusSerializer(serializers.Serializer):
+    status = serializers.BooleanField()

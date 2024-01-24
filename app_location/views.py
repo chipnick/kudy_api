@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from app_location.serializers import SetUserLocation
 from app_users.models import User
+from django.utils import timezone
 
 
 class SetMyLocation(generics.GenericAPIView):
@@ -16,6 +17,7 @@ class SetMyLocation(generics.GenericAPIView):
         if serializer.is_valid():
             self.request.user.longitude = request.data['longitude']
             self.request.user.latitude = request.data['latitude']
+            self.request.user.last_login = timezone.now()
             self.request.user.save()
             return Response(status=status.HTTP_200_OK)
         else:

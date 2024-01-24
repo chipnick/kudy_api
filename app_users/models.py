@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.utils import timezone
 
 
 class MyUserManager(BaseUserManager):
@@ -41,6 +42,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     latitude = models.FloatField(null=True, blank=True)
     friends = models.ManyToManyField("self")
     profile_pic = models.ImageField(upload_to="profile_pics", null=True, blank=True)
+    is_online = models.BooleanField(default=False)
+    last_online = models.DateTimeField(null=True, blank=True)
+    last_position = models.DateTimeField(null=True, blank=True)
 
     objects = MyUserManager()
 
@@ -52,11 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "users"
 
     def save(self, *args, **kwargs):
-        # if self.id:
-        #     old_user = User.objects.get(id=self.id)
-        #     if old_user.email != self.email:
-        #         self.is_email_confirmed=False
-        #         self.send_verify_email()
+        if self.id:
+            old_user = User.objects.get(id=self.id)
+            if old_user.is_online is True and old_user.is_onlin != self.email:
+                self.last_online = timezone.now()
         super(User, self).save()
 
     # def activate(self, *args, **kwargs):
