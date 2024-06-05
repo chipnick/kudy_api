@@ -40,6 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField("staff status", default=False)
     longitude = models.FloatField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
+    speed = models.IntegerField(null=True, blank=True)
     friends = models.ManyToManyField("self")
     profile_pic = models.ImageField(upload_to="profile_pics", null=True, blank=True)
     is_online = models.BooleanField(default=False)
