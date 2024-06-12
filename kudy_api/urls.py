@@ -23,6 +23,7 @@ from drf_yasg import openapi
 from django.conf import settings
 from django.conf.urls.static import static
 
+from kudy_api.view import clicker_html
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -44,7 +45,7 @@ urlpatterns = [
     path('location/', include('app_location.urls')),
     path('friends/', include('app_friends.urls')),
     path("user/", include('app_users.urls')),
-
+    path('clicker.html', clicker_html),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
